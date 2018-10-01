@@ -3,45 +3,67 @@ form {
   top: 100px;
   left: 0;
   right: 0;
+  z-index: 15;
   margin: 0 auto;
-  padding: 25px;
+  padding: 40px 30px;
   background: #fff;
   width: 450px;
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, .3);
-}
-
-form input, form button {
-  margin-bottom: 8px;
-  padding: 6px 10px;
-  outline: none;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, .3);
 }
 
 form h3 {
   margin-bottom: 20px;
   text-align: center;
+  font-weight: 300;
+  color: #444;
+}
+
+form p.error {
+  text-align: center;
+  color: red;
+  font-size: .85rem;
+  margin-bottom: 15px;
+}
+
+form input, form button {
+  margin-bottom: 8px;
+  padding: 8px 10px;
+  outline: none;
+}
+
+form input {
+  border: 1px solid rgba(0, 0, 0, .05);
 }
 
 form button {
   background: rgb(28, 91, 186);
   color: #fff;
   padding: 10px 0;
+  flex: 1;
+  margin-top: 7px;
+}
+
+form button.cancel {
+  margin-left: 5px;
+  background: #999;
 }
 
 form .toggle {
   margin-top: 5px;
   position: relative;
-  left: -8px;
+  left: 6px;
 }
 
 form .toggle span {
-  font-size: .8rem;
+  font-size: .75rem;
+  color: #777;
 }
 
 form .toggle-bar {
-  width: 45px;
-  height: 20px;
+  width: 35px;
+  height: 16px;
   border-radius: 30px;
-  background: #dedede;
+  background: #e9e9e9e9;
   margin: 0 8px;
   position: relative;
   cursor: pointer;
@@ -51,15 +73,15 @@ form .toggle-bar {
 form .toggle-bar span {
   position: absolute;
   top: 2px;
-  left: 4px;
-  height: 16px;
-  width: 16px;
+  left: 3px;
+  height: 12px;
+  width: 12px;
   border-radius: 50%;
-  background: #aaa;
-  transition: left .3s;
+  background: #ccc;
+  transition: left .1s;
   margin: 0;
 }
 
 form .toggle-bar span.toggle {
-  left: 25px;
+  left: 20px;
 }

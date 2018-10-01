@@ -1,5 +1,9 @@
 header {
   background: #444;
   color: #fff;
-  padding: 8px 5%;
+  padding: 10px 5%;
+}
+
+header nav span {
+  cursor: pointer;
 }

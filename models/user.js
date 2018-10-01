@@ -1,12 +1,31 @@
 'use strict';
+
+const bcrypt = require('bcrypt');
+
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
-    email: DataTypes.STRING,
-    password: DataTypes.STRING
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false
+    }
   }, {});
+
   User.associate = function(models) {
-    // associations can be defined here
+    User.hasMany(models.Note);
   };
+
+  User.beforeCreate(function(user, options) {
+    return user.password = bcrypt.hashSync(user.password, 10);
+  });
+
+  User.prototype.validatePass = function(password, hash) {
+    return bcrypt.compareSync(password, hash);
+  }
 
   User.prototype.toJSON = function() {
     let values = Object.assign({}, this.get());

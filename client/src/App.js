@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import './App.css';
@@ -13,36 +13,77 @@ class App extends Component {
     user: {},
     notes: [],
     logged_in: 0,
-    show_form: 1,
-    is_register: 1,
+    show_form: 0,
+    show_overlay: 0,
+    is_register: 0,
     email: '',
-    password: ''
+    password: '',
+    show_auth_error: 0,
+    error_message: ''
   }
 
   isAuthenticated = () => {
-    axios.get('/isauth')
+    axios.get('/auth/isauth')
       .then(res => {
-        
+        if ( res.data.success ) {
+          this.setState({
+            user: res.data.user,
+            logged_in: 1
+          });
+        }
       });
   }
 
-  showForm = () => {
-    this.setState({show_form: 1});
+  closeForm = (e) => {
+    e.preventDefault();
+
+    this.setState({ show_form: 0, show_overlay: 0 });
   }
 
-  toggleFormState = () => {
-    this.setState({is_register: !this.state.is_register});
+  showForm = is_register => {
+
+    this.setState({
+      is_register: is_register ? 1 : 0,
+      show_form: 1, 
+      show_overlay: 1,
+      show_auth_error: 0,
+      error_message: ''
+    });
+  }  
+
+  toggleAuthType = () => {
+    this.setState({
+      is_register: !this.state.is_register,
+      show_auth_error: 0,
+      error_message: ''
+    });
   }
 
   authenticate = (e) => {
     e.preventDefault();
+
     const url = this.state.is_register ? '/auth/register' : '/auth/login';
 
     axios.post(url, {
       email: this.state.email,
       password: this.state.password
     }).then(res => {
-      console.log(res.data);
+      if ( res.data.success ) {
+        this.setState({
+          user: res.data.user,
+          logged_in: 1,
+          show_auth_error: 0,
+          error_message: '',
+          show_form: 0,
+          show_overlay: 0
+        });
+      } else this.setState({ show_auth_error: 1, error_message: res.data.message });
+    }).catch(err => console.log('err', err));
+  }
+
+  logOut = () => {
+    axios.get('/auth/logout').then(res => {
+      this.setState({ user: {}, logged_in: 0 });
     });
   }
 
@@ -58,8 +99,14 @@ class App extends Component {
   
   render() {
     return (
-      <div>
-        <Header />
+      <Fragment>
+        {this.state.show_overlay ? <div className="overlay"></div> : ''}
+
+        <Header 
+          user={this.state.user} 
+          logged_in={this.state.logged_in} 
+          showForm={this.showForm}
+          logOut={this.logOut} />
     
         <Route path="/" exact render={() => (
           this.state.logged_in ? <Redirect to="/dashboard" /> : <Landing showForm={this.showForm} />
@@ -71,16 +118,19 @@ class App extends Component {
 
         {this.state.show_form ? <Form 
           is_register={this.state.is_register}
-          toggleFormState={this.toggleFormState}
+          toggleAuthType={this.toggleAuthType}
           email={this.state.email}
           password={this.state.password}
           handleChange={this.handleChange}
-          authenticate={this.authenticate}  /> : ''}
+          closeForm={this.closeForm}
+          authenticate={this.authenticate}
+          show_auth_error={this.state.show_auth_error}
+          error_message={this.state.error_message} /> : ''}
 
         {/* {this.state.logged_in ?
          <Route path="/dashboard" component={Dashboard} /> : <Route path="/" component={Landing} /> } */}
         {/* { this.state.logged_in ? <Dashboard /> : <Landing /> } */}
-      </div>
+      </Fragment>
     );
   }
 }
