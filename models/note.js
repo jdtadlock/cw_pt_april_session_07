@@ -4,8 +4,10 @@ module.exports = (sequelize, DataTypes) => {
     title: DataTypes.STRING,
     details: DataTypes.STRING
   }, {});
+  
   Note.associate = function(models) {
-    // associations can be defined here
+    Note.belongsTo(models.User);
   };
+
   return Note;
 };

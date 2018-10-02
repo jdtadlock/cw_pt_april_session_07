@@ -3,3 +3,14 @@ header {
   color: #fff;
   padding: 8px 5%;
 }
+
+header nav button {
+  margin-right: 15px;
+  padding: 7px 15px;
+  background: rgb(40, 215, 49);
+  color: #fff;
+}
+
+header nav span {
+  cursor: pointer;
+}

@@ -1,4 +1,4 @@
-form {
+form.auth.auth {
   position: absolute;
   top: 100px;
   left: 0;
@@ -7,37 +7,40 @@ form {
   padding: 25px;
   background: #fff;
   width: 450px;
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, .3);
+  box-shadow: 1px 1px 6px rgba(0, 0, 0, .3);
 }
 
-form input, form button {
+form.auth input, form.auth button {
   margin-bottom: 8px;
   padding: 6px 10px;
-  outline: none;
 }
 
-form h3 {
+form.auth h3 {
   margin-bottom: 20px;
   text-align: center;
 }
 
-form button {
+form.auth p.error {
+  color: red;
+  font-size: .85rem;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+form.auth button {
   background: rgb(28, 91, 186);
   color: #fff;
   padding: 10px 0;
+  flex: 1;
 }
 
-form .toggle {
+form.auth .toggle {
   margin-top: 5px;
   position: relative;
   left: -8px;
 }
 
-form .toggle span {
-  font-size: .8rem;
-}
-
-form .toggle-bar {
+form.auth .toggle-bar {
   width: 45px;
   height: 20px;
   border-radius: 30px;
@@ -48,18 +51,19 @@ form .toggle-bar {
 }
 
 
-form .toggle-bar span {
+form.auth .toggle-bar span {
   position: absolute;
   top: 2px;
   left: 4px;
   height: 16px;
   width: 16px;
+  font-size: .8rem;
   border-radius: 50%;
   background: #aaa;
-  transition: left .3s;
+  transition: left .1s;
   margin: 0;
 }
 
-form .toggle-bar span.toggle {
+form.auth .toggle-bar span.toggle {
   left: 25px;
 }

@@ -1,0 +1,32 @@
+form.note {
+  position: absolute;
+  right: 0;
+  top: 0;
+  background: #eee;
+  padding: 25px 35px;
+  height: 100%;
+  width: 550px;
+  transform: translateX(100%);
+  transition: transform .3s;
+}
+
+form.note.show {
+  transform: translateX(0);
+}
+
+form.note input, form.note textarea {
+  margin-bottom: 8px;
+  padding: 10px;
+}
+
+form.note button {
+  background: rgb(28, 91, 186);
+  padding: 9px;
+  color: #fff;
+  margin-top: 15px;
+  flex: 1;
+}
+
+form.note button:first-child {
+  margin-right: 5px;
+}

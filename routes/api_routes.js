@@ -1,16 +1,25 @@
-const { Note } = require('../models');
+const { Note, User } = require('../models');
 
 module.exports = app => {
   app.get('/api/notes', (req, res) => {
-    Note.findAll().then(notes => {
-      res.send({notes: notes});
+    User.findOne({
+      where: {
+        id: req.user.id
+      }, 
+      include: [Note]
+    }).then(user => {
+      res.send({notes: user.Notes});
     });
   });
 
   app.post('/api/note', (req, res) => {
-    Note.create(req.body)
-      .then(note => {
-        res.send({success: 1, message: 'Note created successfully!'});
-      });
+    User.findOne({
+      where: { id: req.user.id }
+    }).then(user => {
+      user.createNote(req.body)
+        .then(note => {
+          res.send({ success: 1, note: note });
+        });
+    });
   });  
 };

@@ -2,7 +2,7 @@ const { User } = require('../models');
 const passport = require('../modules/passport');
 
 module.exports = app => {
-  app.get('/isauth', (req, res) => {
+  app.get('/auth/isauth', (req, res) => {
     if ( !req.user )
       res.send({success: 0});
     else res.send({success: 1, user: req.user});
@@ -11,13 +11,13 @@ module.exports = app => {
   app.post('/auth/register', (req, res) => {
     User.create(req.body)
       .then(user => {
-        req.logIn(user, (err) => {
-          if ( err ) return console.log(err);
+        req.login(user, (err) => {
+          if ( err ) return res.send({success: 0, message: err});
 
           res.send({ user: req.user, success: 1 });
         });
         
-      });
+      }).catch(err => res.send({success: 0, message: 'User with that email address already exists.'}));
   });
 
   app.post('/auth/login', (req, res) => {
@@ -25,4 +25,9 @@ module.exports = app => {
       res.send({ user: req.user, success: 1 });
     });
   });
+
+  app.get('/auth/logout', (req, res) => {
+    req.logout();
+    res.send({success: 1, message: 'Logged out successfully!'});
+  })
 }
