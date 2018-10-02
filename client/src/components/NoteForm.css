@@ -2,6 +2,7 @@ form.note {
   position: absolute;
   right: 0;
   top: 0;
+  z-index: 50;
   background: #eee;
   padding: 25px 35px;
   height: 100%;
